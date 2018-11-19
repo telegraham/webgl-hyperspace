@@ -54,27 +54,32 @@ class Emoji3DRenderer{
   
   go(){
 
-      // this.renderer.render(this.scene, this.camera);
-    this.t0 = performance.now();
-    const animate = () => {
-      const t = performance.now() - this.t0;
-      // console.log(this.camera.position.z)
-      // console.log(this.particleProvider.cameraPositionZ(t));
-      this.zoom(t);
+    // this.renderer.render(this.scene, this.camera);
+    // this.t0 = performance.now();
+    // const animate = () => {
+    //   const t = performance.now() - this.t0;
+    //   // console.log(this.camera.position.z)
+    //   // console.log(this.particleProvider.cameraPositionZ(t));
+    //   this.zoom(t);
 
-      requestAnimationFrame(animate)
-    }
+    //   requestAnimationFrame(animate)
+    // }
 
-    requestAnimationFrame(animate);
-    // document.addEventListener("wheel", (e) => {
-    //   this.deltaZ = this.deltaZ || DELTA_Z_INITIAL;
-
-    //   this.deltaZ -= e.deltaY;
-    //   this.zoom(this.deltaZ);
-    //   this.crrmrma(e)
-    // });
+    // requestAnimationFrame(animate);
+    document.addEventListener("wheel", (e) => {
+      this.wheel(e.deltaY);
+    });
     document.addEventListener("mousemove", this.crrmrma.bind(this))
-    console.log("went")
+    this.wheel(0);
+    // console.log("went")
+  }
+
+  wheel(deltaY) {
+    this.deltaZ = this.deltaZ || DELTA_Z_INITIAL;
+
+    this.deltaZ -= deltaY;
+    this.zoom(this.deltaZ);
+    this.crrmrma(e)
   }
 
   crrmrma(e) {
@@ -85,8 +90,8 @@ class Emoji3DRenderer{
     this.deltaX = e.clientX - window.innerWidth / 2;
     this.deltaY = e.clientY - window.innerHeight / 2;
 
-    this.camera.rotation.x = 0.01 * this.deltaY;
-    this.camera.rotation.y = rot - 0.01 * this.deltaX;
+    this.camera.rotation.x = 0.005 * this.deltaY;
+    this.camera.rotation.y = rot - 0.005 * this.deltaX;
 
     this.particleProvider.particles.forEach((particle) => {
       // particle.plane.material.opacity = particle.opacity(z);
